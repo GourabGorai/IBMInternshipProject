@@ -2,6 +2,10 @@
 
 A Flask-based web application for predicting salaries based on various features like education, experience, location, job title, age, and gender. The application uses a Random Forest Regressor model trained on salary prediction data.
 
+
+# https://ibminternshipproject-production.up.railway.app/
+
+
 ## Features
 
 - **Machine Learning Model**: Uses Random Forest Regressor for salary prediction
