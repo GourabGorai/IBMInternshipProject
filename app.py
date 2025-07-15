@@ -50,13 +50,24 @@ def validate_input(education, experience, location, job_title, age, gender):
     if age is not None and age <= 0:
         errors.append("Age must be greater than 0")
     
-    # Check if experience is greater than age
-    if experience is not None and age is not None and experience >= age:
-        errors.append("Experience cannot be greater than age")
+    # Check age-experience relationship
+    if experience is not None and age is not None:
+        # Calculate minimum possible age to start working
+        min_working_age = 18  # Minimum age to start working
+        expected_min_age = min_working_age + experience
+        
+        if age < expected_min_age:
+            errors.append(f"Invalid age-experience combination. With {experience} years of experience, minimum age should be {expected_min_age} years (assuming work started at age {min_working_age})")
+        
+        # Check if experience is unreasonably high for the age
+        max_possible_experience = age - min_working_age
+        if experience > max_possible_experience:
+            errors.append(f"Experience cannot exceed {max_possible_experience} years for age {age} (assuming work started at age {min_working_age})")
+    
     
     # Check for reasonable limits
     if age is not None and age > 60:
-        errors.append("Age must be less than 60")
+        errors.append("Age must be less than 100")
     
     if experience is not None and experience > 70:
         errors.append("Experience must be less than 70 years")
