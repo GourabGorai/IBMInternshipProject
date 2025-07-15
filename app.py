@@ -55,8 +55,8 @@ def validate_input(education, experience, location, job_title, age, gender):
         errors.append("Experience cannot be greater than age")
     
     # Check for reasonable limits
-    if age is not None and age > 100:
-        errors.append("Age must be less than 100")
+    if age is not None and age > 60:
+        errors.append("Age must be less than 60")
     
     if experience is not None and experience > 70:
         errors.append("Experience must be less than 70 years")
