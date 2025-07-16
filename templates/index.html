@@ -387,6 +387,92 @@
             background: rgba(255,255,255,0.3);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
+        /* Internship Info Section */
+.internship-info {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.internship-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.company-logo {
+    flex: 0 0 auto;
+}
+
+.company-logo img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.internship-details {
+    flex: 1;
+    min-width: 200px;
+    color: white;
+}
+
+.internship-details h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.internship-details p {
+    font-size: 1rem;
+    margin-bottom: 8px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.internship-details p strong {
+    color: white;
+}
+
+.company-badge {
+    flex: 0 0 auto;
+}
+
+.company-badge img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .internship-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .company-logo img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .company-badge img {
+        width: 60px;
+        height: 60px;
+    }
+}
 
         @media (max-width: 768px) {
             .form-grid { grid-template-columns: 1fr; }
@@ -400,6 +486,23 @@
 <body>
 <div class="container">
     <h1>💼 Salary Predictor</h1>
+    <div class="internship-info">
+        <div class="internship-card">
+            <div class="company-logo">
+                <img src="static/company-logo.png" alt="Company Logo">
+            </div>
+            <div class="internship-details">
+                <h3>🎓 Internship Project</h3>
+                <p><strong>Company:</strong> Edunet Foundation in collaboration with AICTE and IBM</p>
+                <p><strong>Intern:</strong> Gourab Gorai</p>
+                <p><strong>Project:</strong> Machine Learning Salary Predictor</p>
+                <p><strong>Duration:</strong> 6 weeks</p>
+            </div>
+            <div class="company-badge">
+                <img src="static/internship-badge.png" alt="Internship Badge">
+            </div>
+        </div>
+    </div>
 
     <!-- Flash Messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
