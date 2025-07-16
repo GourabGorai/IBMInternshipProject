@@ -44,7 +44,7 @@ def validate_input(education, experience, location, job_title, age, gender):
         age = None
     
     # Check for negative or zero values
-    if experience is not None and experience <= 0:
+    if experience is not None and experience < 0:
         errors.append("Experience must be greater than 0")
     
     if age is not None and age <= 0:
