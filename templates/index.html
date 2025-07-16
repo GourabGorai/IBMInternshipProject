@@ -583,7 +583,7 @@
         }
         
         // Check for negative values
-        if (experience <= 0 && experienceInput.value !== '') {
+        if (experience < 0 && experienceInput.value !== '') {
             experienceInput.classList.add('input-error');
             isValid = false;
         }
