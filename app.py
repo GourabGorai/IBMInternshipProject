@@ -45,7 +45,7 @@ def validate_input(education, experience, location, job_title, age, gender):
     
     # Check for negative or zero values
     if experience is not None and experience < 0:
-        errors.append("Experience must be greater than 0")
+        errors.append("Experience must be greater than or equal to 0")
     
     if age is not None and age <= 0:
         errors.append("Age must be greater than 0")
@@ -147,6 +147,33 @@ def train_model():
         # Evaluation Metrics
         mse = mean_squared_error(y_test, y_pred)
         r2 = r2_score(y_test, y_pred)
+         # Create evaluation table with test data and predictions
+        try:
+            # Combine test data with predictions
+            evaluation_data = X_test.copy()
+            evaluation_data['Actual_Salary'] = y_test.values
+            evaluation_data['Predicted_Salary'] = y_pred
+            evaluation_data['Prediction_Error'] = y_test.values - y_pred
+            evaluation_data['Error_Percentage'] = (abs(evaluation_data['Prediction_Error']) / evaluation_data['Actual_Salary']) * 100
+            
+            # Round numerical values for better display
+            evaluation_data['Actual_Salary'] = evaluation_data['Actual_Salary'].round(0)
+            evaluation_data['Predicted_Salary'] = evaluation_data['Predicted_Salary'].round(0)
+            evaluation_data['Prediction_Error'] = evaluation_data['Prediction_Error'].round(0)
+            evaluation_data['Error_Percentage'] = evaluation_data['Error_Percentage'].round(2)
+            
+            # Limit to first 20 samples for display
+            evaluation_sample = evaluation_data.head(20)
+            
+            # Convert to list of dictionaries for easy template rendering
+            evaluation_table = evaluation_sample.to_dict('records')
+            
+            # Store in global variable to access in route
+            app.config['EVALUATION_TABLE'] = evaluation_table
+            
+        except Exception as e:
+            logger.error(f"Error creating evaluation table: {e}")
+            app.config['EVALUATION_TABLE'] = []
 
         # Plot 1: Actual vs Predicted (Line Plot)
         try:
@@ -210,7 +237,7 @@ def train_model():
             logger.error(f"Error creating scatter plot: {e}")
 
         model = model_pipeline
-        return mse, r2
+        return mse, r2, app.config.get('EVALUATION_TABLE', [])
     
     except FileNotFoundError:
         logger.error("Dataset file not found")
@@ -229,7 +256,7 @@ def index():
     
     try:
         # Try to train the model
-        mse, r2 = train_model()
+        mse, r2, evaluation_table = train_model()
         
         if mse is None or r2 is None:
             flash("Error: Unable to train the model. Please check the dataset.", "error")
@@ -313,7 +340,8 @@ def index():
             "static/plots/residuals.png",
             "static/plots/feature_importance.png",
             "static/plots/scatter_plot.png"
-        ]
+        ],
+        evaluation_table=evaluation_table
     )
 
 
