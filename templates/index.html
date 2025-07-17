@@ -473,7 +473,82 @@
         height: 60px;
     }
 }
+/* Model Evaluation Table Styles */
+.evaluation-table {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255,255,255,0.2);
+    overflow-x: auto;
+}
 
+.evaluation-table h2 {
+    color: white;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.table-container {
+    overflow-x: auto;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.eval-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.eval-table th {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    padding: 12px 8px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid rgba(255,255,255,0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.eval-table td {
+    padding: 10px 8px;
+    color: rgba(255,255,255,0.9);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.eval-table tr:nth-child(even) {
+    background: rgba(255,255,255,0.05);
+}
+
+.eval-table tr:hover {
+    background: rgba(255,255,255,0.1);
+    transition: background 0.3s ease;
+}
+
+/* Highlight columns */
+.actual-salary {
+    background: rgba(46, 204, 113, 0.2) !important;
+    font-weight: bold;
+}
+
+.predicted-salary {
+    background: rgba(52, 152, 219, 0.2) !important;
+    font-weight: bold;
+}
+
+.error-column {
+    background: rgba(241, 196, 15, 0.2) !important;
+}
+
+.error-percentage {
+    background: rgba(231, 76, 60, 0.2) !important;
+}
         @media (max-width: 768px) {
             .form-grid { grid-template-columns: 1fr; }
             .metrics { grid-template-columns: 1fr; }
@@ -631,6 +706,57 @@
                 </button>
             </div>
         </div>
+        <!-- Model Evaluation Table -->
+{% if evaluation_table %}
+<div class="evaluation-table">
+    <h2>📊 Model Evaluation Table</h2>
+    <div class="table-info">
+        <span>Showing {{ evaluation_table|length }} test samples</span>
+        <span>Comparing actual vs predicted salaries</span>
+    </div>
+    
+    <div class="table-container">
+        <table class="eval-table">
+            <thead>
+                <tr>
+                    <th>Education</th>
+                    <th>Experience</th>
+                    <th>Location</th>
+                    <th>Job Title</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th class="actual-salary">Actual Salary</th>
+                    <th class="predicted-salary">Predicted Salary</th>
+                    <th class="error-column">Error</th>
+                    <th class="error-percentage">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in evaluation_table %}
+                <tr>
+                    <td>{{ row.Education }}</td>
+                    <td>{{ row.Experience }}</td>
+                    <td>{{ row.Location }}</td>
+                    <td>{{ row.Job_Title }}</td>
+                    <td>{{ row.Age }}</td>
+                    <td>{{ row.Gender }}</td>
+                    <td class="actual-salary">₹{{ "{:,.0f}".format(row.Actual_Salary) }}</td>
+                    <td class="predicted-salary">₹{{ "{:,.0f}".format(row.Predicted_Salary) }}</td>
+                    <td class="error-column">
+                        {% if row.Prediction_Error > 0 %}
+                            +₹{{ "{:,.0f}".format(row.Prediction_Error) }}
+                        {% else %}
+                            ₹{{ "{:,.0f}".format(row.Prediction_Error) }}
+                        {% endif %}
+                    </td>
+                    <td class="error-percentage">{{ row.Error_Percentage }}%</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
 
         <!-- Plot Section -->
         {% if plot_paths %}
