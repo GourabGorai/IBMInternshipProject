@@ -1,4 +1,4 @@
-<script>
+
     // Client-side validation
     const form = document.getElementById('salaryForm');
     const submitBtn = document.getElementById('submitBtn');
@@ -112,4 +112,3 @@
         submitBtn.textContent = '🔮 Predict My Salary';
         document.getElementById('loading').style.display = 'none';
     });
-</script>
