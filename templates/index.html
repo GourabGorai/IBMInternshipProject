@@ -7,8 +7,21 @@
     <link rel="stylesheet" href="static/Styles.css">
 </head>
 <body>
+<div class="matrix-3d">
+    <div class="demo-content">
+        <h2 class="demo-title"></h2>
+        <p class="demo-description"></p>
+    </div>
+</div>
+
 <div class="container">
     <h1>💼 Salary Predictor</h1>
+    <div class="theme-switcher">
+        <button id="themeToggle" class="theme-btn">
+            <span class="theme-icon">🌙</span>
+            <span class="theme-text">Light Mode</span>
+        </button>
+    </div>
     <div class="internship-info">
         <div class="internship-card">
             <div class="company-logo">
@@ -233,6 +246,41 @@
 </div>
 
 <script>
+    // Matrix 3D Effect - from code samples
+    function createMatrix3D() {
+        const container = document.querySelector('.matrix-3d');
+        const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*(){}[]|\\:";\'<>?,./';
+        
+        for (let layer = 0; layer < 3; layer++) {
+            const matrixLayer = document.createElement('div');
+            matrixLayer.className = 'matrix-layer';
+            matrixLayer.style.animationDelay = (layer * 10) + 's';
+            
+            for (let i = 0; i < 30; i++) {
+                const cube = document.createElement('div');
+                cube.className = 'matrix-cube';
+                cube.setAttribute('data-char', characters[Math.floor(Math.random() * characters.length)]);
+                cube.style.left = Math.random() * 100 + '%';
+                cube.style.top = Math.random() * 100 + '%';
+                cube.style.animationDelay = Math.random() * 6 + 's';
+                cube.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                
+                matrixLayer.appendChild(cube);
+            }
+            
+            container.appendChild(matrixLayer);
+        }
+        
+        // Update characters periodically
+        setInterval(() => {
+            const cubes = container.querySelectorAll('.matrix-cube');
+            cubes.forEach(cube => {
+                if (Math.random() < 0.1) {
+                    cube.setAttribute('data-char', characters[Math.floor(Math.random() * characters.length)]);
+                }
+            });
+        }, 500);
+    }
 
     // Client-side validation
     const form = document.getElementById('salaryForm');
@@ -347,7 +395,50 @@
         submitBtn.textContent = '🔮 Predict My Salary';
         document.getElementById('loading').style.display = 'none';
     });
-  
+
+    // Initialize Matrix 3D effect after DOM loads
+    document.addEventListener('DOMContentLoaded', createMatrix3D);
+    // Theme switching functionality
+let currentTheme = 'matrix'; // default theme
+
+function initTheme() {
+    const savedTheme = localStorage.getItem('salary-predictor-theme') || 'matrix';
+    setTheme(savedTheme);
+}
+
+function setTheme(theme) {
+    currentTheme = theme;
+    const body = document.body;
+    const themeBtn = document.getElementById('themeToggle');
+    const themeIcon = document.querySelector('.theme-icon');
+    const themeText = document.querySelector('.theme-text');
+    
+    if (theme === 'modern') {
+        body.classList.add('modern-theme');
+        themeIcon.textContent = '🔮';
+        themeText.textContent = 'Matrix Mode';
+    } else {
+        body.classList.remove('modern-theme');
+        themeIcon.textContent = '🌙';
+        themeText.textContent = 'Light Mode';
+    }
+    
+    localStorage.setItem('salary-predictor-theme', theme);
+}
+
+function toggleTheme() {
+    const newTheme = currentTheme === 'matrix' ? 'modern' : 'matrix';
+    setTheme(newTheme);
+}
+
+// Initialize theme on page load
+document.addEventListener('DOMContentLoaded', function() {
+    createMatrix3D();
+    initTheme();
+    
+    // Add click listener to theme toggle button
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+});
 </script>
 
 </body>
