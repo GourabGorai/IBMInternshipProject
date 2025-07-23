@@ -117,6 +117,7 @@ function collapsePlot() {
 
 // Theme switching functionality
 let currentTheme = 'matrix'; // default theme
+const themes = ['matrix', 'modern', 'static']; // Added static theme
 
 function initTheme() {
     const savedTheme = localStorage.getItem('salary-predictor-theme') || 'matrix';
@@ -132,21 +133,34 @@ function setTheme(theme) {
     
     if (!body || !themeBtn || !themeIcon || !themeText) return;
     
-    if (theme === 'modern') {
-        body.classList.add('modern-theme');
-        themeIcon.textContent = '🔮';
-        themeText.textContent = 'Matrix Mode';
-    } else {
-        body.classList.remove('modern-theme');
-        themeIcon.textContent = '🌙';
-        themeText.textContent = 'Light Mode';
+    // Remove all theme classes
+    body.classList.remove('modern-theme', 'static-theme');
+    
+    // Apply theme based on selection
+    switch(theme) {
+        case 'modern':
+            body.classList.add('modern-theme');
+            themeIcon.textContent = '🎨';
+            themeText.textContent = 'Static Mode';
+            break;
+        case 'static':
+            body.classList.add('static-theme');
+            themeIcon.textContent = '🔮';
+            themeText.textContent = 'Matrix Mode';
+            break;
+        default: // matrix theme
+            themeIcon.textContent = '🌙';
+            themeText.textContent = 'Modern Mode';
+            break;
     }
     
     localStorage.setItem('salary-predictor-theme', theme);
 }
 
 function toggleTheme() {
-    const newTheme = currentTheme === 'matrix' ? 'modern' : 'matrix';
+    const currentIndex = themes.indexOf(currentTheme);
+    const nextIndex = (currentIndex + 1) % themes.length;
+    const newTheme = themes[nextIndex];
     setTheme(newTheme);
 }
 
@@ -240,4 +254,4 @@ if (document.readyState === 'loading') {
 
 // Global functions that need to be accessible from HTML
 window.expandPlot = expandPlot;
-window.collapsePlot = collapsePlot;  
+window.collapsePlot = collapsePlot;
