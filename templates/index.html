@@ -1,279 +1,355 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💼 Salary Predictor</title>
     <link rel="stylesheet" href="static/Styles.css">
 </head>
+
 <body>
-<div class="matrix-3d">
-    <div class="demo-content">
-        <h2 class="demo-title"></h2>
-        <p class="demo-description"></p>
+    <!-- Background Animation -->
+    <div class="matrix-3d">
+        <div class="demo-content">
+            <h2 class="demo-title"></h2>
+            <p class="demo-description"></p>
+        </div>
     </div>
-</div>
 
-<div class="container">
-    <h1>💼 Salary Predictor</h1>
-    <div class="theme-switcher"> <button id="themeToggle" class="theme-btn"> <span class="theme-icon">🌙</span> <span class="theme-text">Modern Mode</span> </button> </div>
-    <div class="internship-info">
-        <div class="internship-card">
-            <div class="company-logo">
-                <img src="static/company-logo.png" alt="Company Logo">
-                <img src="static/company-logo2.png" alt="Company Logo">
+    <!-- Main Container -->
+    <div class="container">
+        
+        <!-- Header Section -->
+        <header class="app-header">
+            <h1>💼 Salary Predictor</h1>
+            <div class="theme-switcher">
+                <button id="themeToggle" class="theme-btn">
+                    <span class="theme-icon">🌙</span>
+                    <span class="theme-text">Modern Mode</span>
+                </button>
             </div>
-            <div class="internship-details">
-                <h3>🎓 Internship Project</h3>
-                <p><strong>Company:</strong> Edunet Foundation in collaboration with AICTE and IBM</p>
-                <p><strong>Intern:</strong> Gourab Gorai</p>
-                <p><strong>Project:</strong> Machine Learning Salary Predictor</p>
-                <p><strong>Duration:</strong> 6 weeks</p>
-            </div>
-            <div class="company-badge">
-                <img src="static/internship-badge.png" alt="Internship Badge">
-            </div>
-        </div>
-    </div>
-    <div class="internship-info">
-        <div class="internship-card">
-            <div class="internship-details">
-                <h3>Project Design Themes</h3>
-                <p><strong>Matrix :- </strong> Default, designed with 3D green textures and Black background</p>
-                <p><strong>Modern :-</strong> Same as matrix but instead of green it will be white and instead of black it will be blue</p>
-                <p><strong>Static:</strong> No background Animation, As shown in the project PPT</p>
-            </div>
-        </div>
-    </div>
-    <!-- Flash Messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div class="flash-messages">
-                {% for category, message in messages %}
-                    <div class="flash-message {{ category }}">
-                        {{ message }}
-                        <button class="close-btn" onclick="this.parentElement.remove()">×</button>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
-    {% endwith %}
+        </header>
 
-    <!-- Error State (when model fails to load) -->
-    {% if error %}
-        <div class="error-state">
-            <h2>⚠️ System Error</h2>
-            <p>The salary prediction model is currently unavailable. Please try again later.</p>
-        </div>
-    {% else %}
-        <!-- Model Performance -->
-        {% if mse is not none and r2 is not none %}
-            <div class="model-performance">
-                <h2>📊 Model Performance</h2>
-                <div class="metrics">
-                    <div class="metric">
-                        <div class="metric-label">Mean Squared Error (MSE)</div>
-                        <div class="metric-value">{{ "%.2f"|format(mse) }}</div>
+        <!-- Internship Information Section -->
+        <section class="internship-section">
+            <div class="internship-info">
+                <div class="internship-card">
+                    <div class="company-logo">
+                        <img src="static/company-logo.png" alt="Company Logo">
+                        <img src="static/company-logo2.png" alt="Company Logo">
                     </div>
-                    <div class="metric">
-                        <div class="metric-label">R² Score</div>
-                        <div class="metric-value">{{ "%.2f"|format(r2) }}</div>
+                    <div class="internship-details">
+                        <h3>🎓 Internship Project</h3>
+                        <p><strong>Company:</strong> Edunet Foundation in collaboration with AICTE and IBM</p>
+                        <p><strong>Intern:</strong> Gourab Gorai</p>
+                        <p><strong>Project:</strong> Machine Learning Salary Predictor</p>
+                        <p><strong>Duration:</strong> 6 weeks</p>
+                    </div>
+                    <div class="company-badge">
+                        <img src="static/internship-badge.png" alt="Internship Badge">
                     </div>
                 </div>
             </div>
-        {% endif %}
 
-        <!-- Salary Prediction Form -->
-        <div class="form-container">
-            <form id="salaryForm" method="POST" action="/" novalidate>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="education">🎓 Education Level</label>
-                        <select name="education" id="education" required>
-                            <option value="">--Select Education--</option>
-                            <option value="High School" {{ 'selected' if request.form.get('education') == 'High School' }}>High School</option>
-                            <option value="Bachelor" {{ 'selected' if request.form.get('education') == 'Bachelor' }}>Bachelor's Degree</option>
-                            <option value="Master" {{ 'selected' if request.form.get('education') == 'Master' }}>Master's Degree</option>
-                            <option value="PhD" {{ 'selected' if request.form.get('education') == 'PhD' }}>PhD</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="experience">💼 Experience (Years)</label>
-                        <input type="number" name="experience" id="experience" min="0" max="70" 
-                               placeholder="Enter years of experience" 
-                               value="{{ request.form.get('experience', '') }}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="location">📍 Location</label>
-                        <select name="location" id="location" required>
-                            <option value="">--Select Location--</option>
-                            <option value="Suburban" {{ 'selected' if request.form.get('location') == 'Suburban' }}>Suburban</option>
-                            <option value="Rural" {{ 'selected' if request.form.get('location') == 'Rural' }}>Rural</option>
-                            <option value="Urban" {{ 'selected' if request.form.get('location') == 'Urban' }}>Urban</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="job_title">👔 Job Title</label>
-                        <select name="job_title" id="job_title" required>
-                            <option value="">--Select Job Title--</option>
-                            <option value="Director" {{ 'selected' if request.form.get('job_title') == 'Director' }}>Director</option>
-                            <option value="Analyst" {{ 'selected' if request.form.get('job_title') == 'Analyst' }}>Analyst</option>
-                            <option value="Manager" {{ 'selected' if request.form.get('job_title') == 'Manager' }}>Manager</option>
-                            <option value="Engineer" {{ 'selected' if request.form.get('job_title') == 'Engineer' }}>Engineer</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="age">🎂 Age</label>
-                        <input type="number" name="age" id="age" min="18" max="100" 
-                               placeholder="Enter your age" 
-                               value="{{ request.form.get('age', '') }}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="gender">👤 Gender</label>
-                        <select name="gender" id="gender" required>
-                            <option value="">--Select Gender--</option>
-                            <option value="Male" {{ 'selected' if request.form.get('gender') == 'Male' }}>Male</option>
-                            <option value="Female" {{ 'selected' if request.form.get('gender') == 'Female' }}>Female</option>
-                        </select>
+            <div class="internship-info">
+                <div class="internship-card">
+                    <div class="internship-details">
+                        <h3>Project Design Themes</h3>
+                        <p><strong>Matrix:</strong> Default, designed with 3D green textures and Black background</p>
+                        <p><strong>Modern:</strong> Same as matrix but instead of green it will be white and instead of black it will be blue</p>
+                        <p><strong>Static:</strong> No background Animation, As shown in the project PPT</p>
                     </div>
                 </div>
-                <button type="submit" class="submit-btn" id="submitBtn">🔮 Predict My Salary</button>
-            </form>
-
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <p style="color: white;">Calculating your salary...</p>
             </div>
+        </section>
 
-            <div class="result" id="result">
-                <h2>✅ Predicted Salary</h2>
-                <div class="salary-amount" id="salaryAmount">
-                    {% if predicted_salary %}
-                        ₹{{ "{:,.0f}".format(predicted_salary) }}
-                    {% endif %}
-                </div>
-                <p class="result-description">Per Month Based on your profile and market analysis</p>
-            </div>
-        </div>
+        <!-- Flash Messages -->
+        <section class="flash-section">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="flash-message {{ category }}">
+                                {{ message }}
+                                <button class="close-btn" onclick="this.parentElement.remove()">×</button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+        </section>
 
-        <!-- Developer Profile Section -->
-<div class="developer-profile">
-    <div class="developer-card">
-        <div class="developer-photo">
-            <img src="static/developer-photo.jpg" alt="Gourab Gorai - Developer" class="profile-image">
-        </div>
-        <div class="developer-info">
-            <h3>👨‍💻 Meet the Developer</h3>
-            <h4>Gourab Gorai</h4>
-            <p>BCA - 2025 PASSOUT CANDIDATE</p>
-            <p>Passionate about AI/ML and creating innovative solutions</p>
-            <div class="social-buttons">
-                <button class="social-btn linkedin" onclick="window.open('https://www.linkedin.com/in/gourab-gorai-4a51541ba', '_blank')">
-                    <img src="static/linkedin.png" alt="LinkedIn">
-                </button>
-                <button class="social-btn github" onclick="window.open('', '_blank')">
-                    <img src="static/github.png" alt="GitHub">
-                </button>
-                <button class="social-btn portfolio" onclick="window.open('https://gourabgorai.netlify.app', '_blank')">
-                    <img src="static/portfolio.png" alt="Portfolio">
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-        <!-- Model Evaluation Table -->
-{% if evaluation_table %}
-<div class="evaluation-table">
-    <h2>📊 Model Evaluation Table</h2>
-    <div class="table-info">
-        <span>Showing {{ evaluation_table|length }} test samples</span>
-        <span>Comparing actual vs predicted salaries</span>
-    </div>
-    
-    <div class="table-container">
-        <table class="eval-table">
-            <thead>
-                <tr>
-                    <th>Education</th>
-                    <th>Experience</th>
-                    <th>Location</th>
-                    <th>Job Title</th>
-                    <th>Age</th>
-                    <th>Gender</th>
-                    <th class="actual-salary">Actual Salary</th>
-                    <th class="predicted-salary">Predicted Salary</th>
-                    <th class="error-column">Error</th>
-                    <th class="error-percentage">Error %</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in evaluation_table %}
-                <tr>
-                    <td>{{ row.Education }}</td>
-                    <td>{{ row.Experience }}</td>
-                    <td>{{ row.Location }}</td>
-                    <td>{{ row.Job_Title }}</td>
-                    <td>{{ row.Age }}</td>
-                    <td>{{ row.Gender }}</td>
-                    <td class="actual-salary">₹{{ "{:,.0f}".format(row.Actual_Salary) }}</td>
-                    <td class="predicted-salary">₹{{ "{:,.0f}".format(row.Predicted_Salary) }}</td>
-                    <td class="error-column">
-                        {% if row.Prediction_Error > 0 %}
-                            +₹{{ "{:,.0f}".format(row.Prediction_Error) }}
-                        {% else %}
-                            ₹{{ "{:,.0f}".format(row.Prediction_Error) }}
-                        {% endif %}
-                    </td>
-                    <td class="error-percentage">{{ row.Error_Percentage }}%</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-{% endif %}
-
-        <!-- Plot Section -->
-        {% if plot_paths %}
-            <div class="plots-section">
-                <h2>📉 Model Evaluation Plots</h2>
-
-                <!-- Plot Grid -->
-                <div class="plot-grid" id="plotGrid">
-                    {% for plot in plot_paths %}
-                        <div class="plot-card">
-                            <img src="{{ plot }}" alt="Model Evaluation Plot" onclick="expandPlot(this.src)" onerror="this.style.display='none'">
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Error State -->
+            {% if error %}
+                <section class="error-section">
+                    <div class="error-state">
+                        <h2>⚠️ System Error</h2>
+                        <p>The salary prediction model is currently unavailable. Please try again later.</p>
+                    </div>
+                </section>
+            
+            {% else %}
+                
+                <!-- Model Performance Section -->
+                {% if mse is not none and r2 is not none %}
+                    <section class="performance-section">
+                        <div class="model-performance">
+                            <h2>📊 Model Performance</h2>
+                            <div class="metrics">
+                                <div class="metric">
+                                    <div class="metric-label">Mean Squared Error (MSE)</div>
+                                    <div class="metric-value">{{ "%.2f"|format(mse) }}</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">R² Score</div>
+                                    <div class="metric-value">{{ "%.2f"|format(r2) }}</div>
+                                </div>
+                            </div>
                         </div>
-                    {% endfor %}
-                </div>
+                    </section>
+                {% endif %}
 
-                <!-- Expanded Plot View -->
-                <div class="expanded-view" id="expandedView">
-                    <img id="expandedImg" src="" alt="Expanded Plot"/>
-                    <br>
-                    <button class="back-btn" onclick="collapsePlot()">🔙 Back</button>
-                </div>
-            </div>
-        {% endif %}
-    {% endif %}
-</div>
+                <!-- Salary Prediction Form Section -->
+                <section class="prediction-section">
+                    <div class="form-container">
+                        <form id="salaryForm" method="POST" action="/" novalidate>
+                            <div class="form-grid">
+                                
+                                <!-- Education Input -->
+                                <div class="form-group">
+                                    <label for="education">🎓 Education Level</label>
+                                    <select name="education" id="education" required>
+                                        <option value="">--Select Education--</option>
+                                        <option value="High School" {{ 'selected' if request.form.get('education') == 'High School' }}>High School</option>
+                                        <option value="Bachelor" {{ 'selected' if request.form.get('education') == 'Bachelor' }}>Bachelor's Degree</option>
+                                        <option value="Master" {{ 'selected' if request.form.get('education') == 'Master' }}>Master's Degree</option>
+                                        <option value="PhD" {{ 'selected' if request.form.get('education') == 'PhD' }}>PhD</option>
+                                    </select>
+                                </div>
 
-<!-- Include the external JavaScript file -->
-<script src="static/Script.js"></script>
+                                <!-- Experience Input -->
+                                <div class="form-group">
+                                    <label for="experience">💼 Experience (Years)</label>
+                                    <input type="number" 
+                                           name="experience" 
+                                           id="experience" 
+                                           min="0" 
+                                           max="70" 
+                                           placeholder="Enter years of experience" 
+                                           value="{{ request.form.get('experience', '') }}" 
+                                           required>
+                                </div>
 
-<!-- Template-specific JavaScript (stays in HTML) -->
-<script>
-    // This script handles template variables that can't be moved to external JS
-    document.addEventListener('DOMContentLoaded', function() {
-        // Show result if prediction exists (uses Jinja2 template variable)
-        {% if predicted_salary %}
-            const result = document.getElementById('result');
-            if (result) {
-                result.style.display = 'block';
-            }
-        {% endif %}
-    });
-</script>
+                                <!-- Location Input -->
+                                <div class="form-group">
+                                    <label for="location">📍 Location</label>
+                                    <select name="location" id="location" required>
+                                        <option value="">--Select Location--</option>
+                                        <option value="Suburban" {{ 'selected' if request.form.get('location') == 'Suburban' }}>Suburban</option>
+                                        <option value="Rural" {{ 'selected' if request.form.get('location') == 'Rural' }}>Rural</option>
+                                        <option value="Urban" {{ 'selected' if request.form.get('location') == 'Urban' }}>Urban</option>
+                                    </select>
+                                </div>
+
+                                <!-- Job Title Input -->
+                                <div class="form-group">
+                                    <label for="job_title">👔 Job Title</label>
+                                    <select name="job_title" id="job_title" required>
+                                        <option value="">--Select Job Title--</option>
+                                        <option value="Director" {{ 'selected' if request.form.get('job_title') == 'Director' }}>Director</option>
+                                        <option value="Analyst" {{ 'selected' if request.form.get('job_title') == 'Analyst' }}>Analyst</option>
+                                        <option value="Manager" {{ 'selected' if request.form.get('job_title') == 'Manager' }}>Manager</option>
+                                        <option value="Engineer" {{ 'selected' if request.form.get('job_title') == 'Engineer' }}>Engineer</option>
+                                    </select>
+                                </div>
+
+                                <!-- Age Input -->
+                                <div class="form-group">
+                                    <label for="age">🎂 Age</label>
+                                    <input type="number" 
+                                           name="age" 
+                                           id="age" 
+                                           min="18" 
+                                           max="100" 
+                                           placeholder="Enter your age" 
+                                           value="{{ request.form.get('age', '') }}" 
+                                           required>
+                                </div>
+
+                                <!-- Gender Input -->
+                                <div class="form-group">
+                                    <label for="gender">👤 Gender</label>
+                                    <select name="gender" id="gender" required>
+                                        <option value="">--Select Gender--</option>
+                                        <option value="Male" {{ 'selected' if request.form.get('gender') == 'Male' }}>Male</option>
+                                        <option value="Female" {{ 'selected' if request.form.get('gender') == 'Female' }}>Female</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+                            
+                            <!-- Submit Button -->
+                            <button type="submit" class="submit-btn" id="submitBtn">🔮 Predict My Salary</button>
+                        </form>
+
+                        <!-- Loading State -->
+                        <div class="loading" id="loading">
+                            <div class="spinner"></div>
+                            <p style="color: white;">Calculating your salary...</p>
+                        </div>
+
+                        <!-- Result Display -->
+                        <div class="result" id="result">
+                            <h2>✅ Predicted Salary</h2>
+                            <div class="salary-amount" id="salaryAmount">
+                                {% if predicted_salary %}
+                                    ₹{{ "{:,.0f}".format(predicted_salary) }}
+                                {% endif %}
+                            </div>
+                            <p class="result-description">Per Month Based on your profile and market analysis</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Developer Profile Section -->
+                <section class="developer-section">
+                    <div class="developer-profile">
+                        <div class="developer-card">
+                            <div class="developer-photo">
+                                <img src="static/developer-photo.jpg" 
+                                     alt="Gourab Gorai - Developer" 
+                                     class="profile-image">
+                            </div>
+                            <div class="developer-info">
+                                <h3>👨‍💻 Meet the Developer</h3>
+                                <h4>Gourab Gorai</h4>
+                                <p>BCA - 2025 PASSOUT CANDIDATE</p>
+                                <p>Passionate about AI/ML and creating innovative solutions</p>
+                                <div class="social-buttons">
+                                    <button class="social-btn linkedin" 
+                                            onclick="window.open('https://www.linkedin.com/in/gourab-gorai-4a51541ba', '_blank')">
+                                        <img src="static/linkedin.png" alt="LinkedIn">
+                                    </button>
+                                    <button class="social-btn github" 
+                                            onclick="window.open('', '_blank')">
+                                        <img src="static/github.png" alt="GitHub">
+                                    </button>
+                                    <button class="social-btn portfolio" 
+                                            onclick="window.open('https://gourabgorai.netlify.app', '_blank')">
+                                        <img src="static/portfolio.png" alt="Portfolio">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Model Evaluation Table Section -->
+                {% if evaluation_table %}
+                    <section class="evaluation-section">
+                        <div class="evaluation-table">
+                            <h2>📊 Model Evaluation Table</h2>
+                            <div class="table-info">
+                                <span>Showing {{ evaluation_table|length }} test samples</span>
+                                <span>Comparing actual vs predicted salaries</span>
+                            </div>
+                            
+                            <div class="table-container">
+                                <table class="eval-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Education</th>
+                                            <th>Experience</th>
+                                            <th>Location</th>
+                                            <th>Job Title</th>
+                                            <th>Age</th>
+                                            <th>Gender</th>
+                                            <th class="actual-salary">Actual Salary</th>
+                                            <th class="predicted-salary">Predicted Salary</th>
+                                            <th class="error-column">Error</th>
+                                            <th class="error-percentage">Error %</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for row in evaluation_table %}
+                                            <tr>
+                                                <td>{{ row.Education }}</td>
+                                                <td>{{ row.Experience }}</td>
+                                                <td>{{ row.Location }}</td>
+                                                <td>{{ row.Job_Title }}</td>
+                                                <td>{{ row.Age }}</td>
+                                                <td>{{ row.Gender }}</td>
+                                                <td class="actual-salary">₹{{ "{:,.0f}".format(row.Actual_Salary) }}</td>
+                                                <td class="predicted-salary">₹{{ "{:,.0f}".format(row.Predicted_Salary) }}</td>
+                                                <td class="error-column">
+                                                    {% if row.Prediction_Error > 0 %}
+                                                        +₹{{ "{:,.0f}".format(row.Prediction_Error) }}
+                                                    {% else %}
+                                                        ₹{{ "{:,.0f}".format(row.Prediction_Error) }}
+                                                    {% endif %}
+                                                </td>
+                                                <td class="error-percentage">{{ row.Error_Percentage }}%</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                {% endif %}
+
+                <!-- Plots Section -->
+                {% if plot_paths %}
+                    <section class="plots-section">
+                        <h2>📉 Model Evaluation Plots</h2>
+
+                        <!-- Plot Grid -->
+                        <div class="plot-grid" id="plotGrid">
+                            {% for plot in plot_paths %}
+                                <div class="plot-card">
+                                    <img src="{{ plot }}" 
+                                         alt="Model Evaluation Plot" 
+                                         onclick="expandPlot(this.src)" 
+                                         onerror="this.style.display='none'">
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Expanded Plot View -->
+                        <div class="expanded-view" id="expandedView">
+                            <img id="expandedImg" src="" alt="Expanded Plot">
+                            <br>
+                            <button class="back-btn" onclick="collapsePlot()">🔙 Back</button>
+                        </div>
+                    </section>
+                {% endif %}
+                
+            {% endif %}
+            
+        </main>
+        
+    </div>
+
+    <!-- Scripts -->
+    <script src="static/Script.js"></script>
+    
+    <!-- Template-specific JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show result if prediction exists (uses Jinja2 template variable)
+            {% if predicted_salary %}
+                const result = document.getElementById('result');
+                if (result) {
+                    result.style.display = 'block';
+                }
+            {% endif %}
+        });
+    </script>
 
 </body>
+
 </html>
