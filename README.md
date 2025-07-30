@@ -260,7 +260,6 @@ If you encounter any issues or have questions:
 1. Check the existing issues in the GitHub repository
 2. Create a new issue with detailed description
 3. Contact the developer through LinkedIn
-4. Email support (if available)
 ---
 
 **Made with ❤️ by Gourab Gorai as part of Edunet Foundation Internship Program**
