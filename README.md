@@ -238,10 +238,6 @@ Toggle between themes using the theme switcher button in the header.
 - User authentication system
 - Historical prediction tracking
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 👨‍💻 Developer Profile
 
 **Gourab Gorai**
