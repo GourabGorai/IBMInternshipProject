@@ -14,6 +14,9 @@ This salary prediction system uses Random Forest Regression to analyze and predi
 
 The application features an interactive web interface with real-time validation, multiple visual themes, and comprehensive model evaluation metrics.
 
+![Application Overview](static/app-overview-screenshot.jpg)
+*Main Application Interface - Showing the salary prediction form with real-time validation*
+
 ## 🏢 Internship Details
 
 - **Company**: Edunet Foundation in collaboration with AICTE and IBM
@@ -30,6 +33,12 @@ The application features an interactive web interface with real-time validation,
 - **Input Validation**: Comprehensive form validation with error handling
 - **Interactive Visualizations**: Multiple plots for model evaluation
 
+![Salary Prediction Result](static/prediction-result-screenshot.jpg)
+*Salary Prediction Result - Displaying predicted salary with professional formatting*
+
+![Model Performance Metrics](static/model-metrics-screenshot.jpg)
+*Model Performance Metrics - MSE and R² score visualization with detailed statistics*
+
 ### User Interface
 - **3D Matrix Background**: Animated cyberpunk-style background effects
 - **Multiple Themes**: 
@@ -38,6 +47,12 @@ The application features an interactive web interface with real-time validation,
   - Static: No animations, clean interface
 - **Responsive Design**: Mobile-friendly interface
 - **Real-time Feedback**: Instant validation and error messages
+
+![User Interface Demo](static/ui-features-demo.jpg)
+*User Interface Features - Real-time validation and responsive design demonstration*
+
+![Mobile Responsive](static/mobile-responsive-screenshot.jpg)
+*Mobile Responsive Design - Optimized interface for smartphones and tablets*
 
 ### Model Evaluation
 - **Performance Metrics**: MSE and R² score calculation
@@ -83,7 +98,7 @@ salary-predictor/
 │   ├── Styles.css        # CSS styling and themes
 │   ├── Script.js         # JavaScript functionality
 │   ├── plots/            # Generated model evaluation plots
-│   └── assets/           # Images and icons
+│   └── assets/           # Company logos and icons
 └── README.md
 ```
 
@@ -150,15 +165,24 @@ The application features three distinct themes:
 - Cyberpunk aesthetic
 - Dynamic floating elements
 
+![Matrix Theme](static/matrix-theme-screenshot.jpg)
+*Matrix Theme - Cyberpunk aesthetic with animated 3D green matrix background*
+
 ### Modern Theme
 - Clean blue gradient background
 - White accents instead of green
 - Professional appearance
 
+![Modern Theme](static/modern-theme-screenshot.jpg)
+*Modern Theme - Clean blue gradient with white accents for professional appearance*
+
 ### Static Theme
 - No background animations
 - Optimized for performance
 - Accessibility-friendly
+
+![Static Theme](static/static-theme-screenshot.jpg)
+*Static Theme - Clean interface without animations, optimized for performance*
 
 Toggle between themes using the theme switcher button in the header.
 
@@ -189,11 +213,20 @@ Toggle between themes using the theme switcher button in the header.
 3. **Feature Importance Bar Chart**: Variable significance ranking
 4. **Scatter Plot**: Correlation between actual and predicted values
 
+![Model Performance Plots](static/model-evaluation-plots.jpg)
+*Model Evaluation Plots - Comprehensive visualization of model performance metrics*
+
+![Feature Importance Chart](static/feature-importance-chart.jpg)
+*Feature Importance Analysis - Shows which factors most influence salary predictions*
+
 ### Evaluation Table
 - Displays first 20 test samples
 - Shows actual vs predicted salaries
 - Calculates prediction errors and percentages
 - Color-coded for easy interpretation
+
+![Evaluation Table](static/evaluation-table-screenshot.jpg)
+*Model Evaluation Table - Detailed comparison of actual vs predicted salaries with error metrics*
 
 ## 🛡️ Input Validation
 
@@ -203,11 +236,17 @@ Toggle between themes using the theme switcher button in the header.
 - **Required Fields**: All inputs must be provided
 - **Real-time Feedback**: Instant validation as user types
 
+![Input Validation Demo](static/input-validation-demo.jpg)
+*Input Validation System - Real-time validation with error highlighting and success indicators*
+
 ### Error Handling
 - **File Validation**: Checks dataset existence and format
 - **Data Quality**: Validates required columns and data types
 - **Model Training**: Handles insufficient data scenarios
 - **Prediction Errors**: Manages invalid inputs gracefully
+
+![Error Handling](static/error-handling-screenshot.jpg)
+*Error Handling - Comprehensive error messages and flash notifications*
 
 ## 🌐 Browser Compatibility
 
