@@ -1001,3 +1001,150 @@ input::placeholder {
 .static-theme body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); } .static-theme .matrix-3d { display: none !important; } .static-theme .demo-content { display: none !important; } .static-theme .matrix-cube, .static-theme .matrix-layer { display: none !important; } .static-theme .model-performance, .static-theme .form-container, .static-theme .plots-section, .static-theme .internship-info, .static-theme .evaluation-table, .static-theme .social-links, .static-theme .developer-profile, .static-theme .developer-spotlight { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); } .static-theme .submit-btn { background: linear-gradient(45deg, #ff6b6b, #ee5a24); } .static-theme .result { background: linear-gradient(45deg, #00b894, #00cec9); } .static-theme .flash-message.error { background: rgba(231, 76, 60, 0.9); } .static-theme .flash-message.success { background: rgba(46, 204, 113, 0.9); } .static-theme .flash-message.warning { background: rgba(241, 196, 15, 0.9); } 
 /* Static theme colors */
 .static-theme .demo-title, .static-theme .demo-description { color: white; text-shadow: 0 0 20px white; }
+/* Popup Button Styles */
+.popup-btn {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.popup-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    background: linear-gradient(45deg, #764ba2, #667eea);
+}
+
+/* Popup Modal Styles */
+.popup-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px);
+}
+
+.popup-content {
+    position: relative;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(15px);
+    margin: 2% auto;
+    padding: 0;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 1200px;
+    height: 90vh;
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.popup-header h2 {
+    color: white;
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.close-popup {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-popup:hover {
+    background: rgba(255,255,255,0.3);
+    transform: scale(1.1);
+}
+
+.popup-iframe {
+    width: 100%;
+    height: calc(100% - 80px);
+    border: none;
+    border-radius: 0 0 15px 15px;
+}
+
+/* Loading spinner for popup */
+.popup-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    color: white;
+}
+
+.popup-loading .spinner {
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top: 3px solid white;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+/* Modern theme popup styles */
+.modern-theme .popup-content {
+    background: rgba(26, 26, 46, 0.9);
+    border: 1px solid rgba(100, 255, 218, 0.3);
+}
+
+.modern-theme .popup-btn {
+    background: linear-gradient(45deg, #64ffda, #00bcd4);
+}
+
+.modern-theme .popup-btn:hover {
+    background: linear-gradient(45deg, #00bcd4, #64ffda);
+}
+
+/* Static theme popup styles */
+.static-theme .popup-content {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .popup-content {
+        width: 95%;
+        height: 95vh;
+        margin: 2.5% auto;
+    }
+    
+    .popup-header {
+        padding: 15px;
+    }
+    
+    .popup-header h2 {
+        font-size: 1.2rem;
+    }
+}
