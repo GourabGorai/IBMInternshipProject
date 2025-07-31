@@ -1,6 +1,3 @@
-// External JavaScript file for Salary Predictor
-// salary-predictor.js
-
 // Matrix 3D Effect
 function createMatrix3D() {
     const container = document.querySelector('.matrix-3d');
