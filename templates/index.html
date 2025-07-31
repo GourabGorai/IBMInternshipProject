@@ -35,6 +35,13 @@
                     <span class="theme-icon">🌙</span>
                     <span class="theme-text">Modern Mode</span>
                 </button>
+
+                <div class="popup-section">
+                    <button id="openPopup" class="popup-btn">
+                        <span>📄</span>
+                        <span>Open Document</span>
+                    </button>
+                </div>
             </div>
         </header>
 
@@ -339,6 +346,20 @@
             
         </main>
         
+    </div>
+
+    <div id="popupModal" class="popup-modal">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h2>📄 Document Viewer</h2>
+                <button class="close-popup" id="closePopup">&times;</button>
+            </div>
+            <div class="popup-loading" id="popupLoading">
+                <div class="spinner"></div>
+                <p>Loading document...</p>
+            </div>
+            <iframe id="popupIframe" class="popup-iframe" style="display: none;"></iframe>
+        </div>
     </div>
 
     <!-- Scripts -->
