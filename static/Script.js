@@ -255,3 +255,78 @@ if (document.readyState === 'loading') {
 // Global functions that need to be accessible from HTML
 window.expandPlot = expandPlot;
 window.collapsePlot = collapsePlot;
+
+// Popup functionality
+function openPopup(htmlFile = 'document.html') {
+    const modal = document.getElementById('popupModal');
+    const iframe = document.getElementById('popupIframe');
+    const loading = document.getElementById('popupLoading');
+    
+    if (!modal || !iframe || !loading) return;
+    
+    // Show modal
+    modal.style.display = 'block';
+    
+    // Show loading, hide iframe
+    loading.style.display = 'flex';
+    iframe.style.display = 'none';
+    
+    // Load the HTML file
+    iframe.src = htmlFile;
+    
+    // Handle iframe load
+    iframe.onload = function() {
+        loading.style.display = 'none';
+        iframe.style.display = 'block';
+    };
+    
+    // Handle iframe error
+    iframe.onerror = function() {
+        loading.innerHTML = '<p style="color: #ff6b6b;">❌ Failed to load document</p>';
+    };
+}
+
+function closePopup() {
+    const modal = document.getElementById('popupModal');
+    const iframe = document.getElementById('popupIframe');
+    
+    if (modal && iframe) {
+        modal.style.display = 'none';
+        iframe.src = ''; // Clear iframe content
+    }
+}
+
+// Add event listeners when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    const openBtn = document.getElementById('openPopup');
+    const closeBtn = document.getElementById('closePopup');
+    const modal = document.getElementById('popupModal');
+    
+    if (openBtn) {
+        openBtn.addEventListener('click', () => openPopup('static/salary_predictor_readme.html')); // Change 'your-file.html' to your actual file name
+    }
+    
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closePopup);
+    }
+    
+    // Close popup when clicking outside
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closePopup();
+            }
+        });
+    }
+    
+    // Close popup with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closePopup();
+        }
+    });
+});
+
+// Make functions globally accessible
+window.openPopup = openPopup;
+window.closePopup = closePopup;
