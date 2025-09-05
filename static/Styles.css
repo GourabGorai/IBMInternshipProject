@@ -149,10 +149,18 @@ body {
     animation: matrix3DRotate 30s linear infinite;
 }
 
-.matrix-cube {
+/* New wrapper for mouse interaction */
+.matrix-cube-wrapper {
     position: absolute;
     width: 20px;
     height: 20px;
+    transition: transform 0.4s ease-out; /* Smooth transition for mouse avoidance */
+}
+
+.matrix-cube {
+    position: absolute; /* Changed from absolute to be relative to its wrapper */
+    width: 100%;      /* Fills the wrapper */
+    height: 100%;     /* Fills the wrapper */
     border: 1px solid #00ff00;
     background: rgba(0, 255, 0, 0.1);
     transform-style: preserve-3d;
@@ -771,7 +779,7 @@ input::placeholder {
         font-size: 0.8rem;
     }
     
-    .matrix-cube {
+    .matrix-cube-wrapper {
         width: 15px;
         height: 15px;
     }
@@ -1001,6 +1009,7 @@ input::placeholder {
 .static-theme body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); } .static-theme .matrix-3d { display: none !important; } .static-theme .demo-content { display: none !important; } .static-theme .matrix-cube, .static-theme .matrix-layer { display: none !important; } .static-theme .model-performance, .static-theme .form-container, .static-theme .plots-section, .static-theme .internship-info, .static-theme .evaluation-table, .static-theme .social-links, .static-theme .developer-profile, .static-theme .developer-spotlight { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); } .static-theme .submit-btn { background: linear-gradient(45deg, #ff6b6b, #ee5a24); } .static-theme .result { background: linear-gradient(45deg, #00b894, #00cec9); } .static-theme .flash-message.error { background: rgba(231, 76, 60, 0.9); } .static-theme .flash-message.success { background: rgba(46, 204, 113, 0.9); } .static-theme .flash-message.warning { background: rgba(241, 196, 15, 0.9); } 
 /* Static theme colors */
 .static-theme .demo-title, .static-theme .demo-description { color: white; text-shadow: 0 0 20px white; }
+
 /* Popup Button Styles */
 .popup-btn {
     background: linear-gradient(45deg, #667eea, #764ba2);
