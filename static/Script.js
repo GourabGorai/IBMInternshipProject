@@ -11,20 +11,30 @@ function createMatrix3D() {
         matrixLayer.style.animationDelay = (layer * 10) + 's';
         
         for (let i = 0; i < 30; i++) {
+            // Create a wrapper for interaction
+            const wrapper = document.createElement('div');
+            wrapper.className = 'matrix-cube-wrapper';
+            
+            // Create the cube itself for animation
             const cube = document.createElement('div');
             cube.className = 'matrix-cube';
+            
+            // Set properties on the wrapper for positioning
+            wrapper.style.left = Math.random() * 100 + '%';
+            wrapper.style.top = Math.random() * 100 + '%';
+            
+            // Set properties on the cube for animation and character
             cube.setAttribute('data-char', characters[Math.floor(Math.random() * characters.length)]);
-            cube.style.left = Math.random() * 100 + '%';
-            cube.style.top = Math.random() * 100 + '%';
             cube.style.animationDelay = Math.random() * 6 + 's';
             cube.style.animationDuration = (Math.random() * 4 + 4) + 's';
             
-            matrixLayer.appendChild(cube);
+            // Append cube to wrapper, and wrapper to layer
+            wrapper.appendChild(cube);
+            matrixLayer.appendChild(wrapper);
         }
-        
         container.appendChild(matrixLayer);
     }
-    
+
     // Update characters periodically
     setInterval(() => {
         const cubes = container.querySelectorAll('.matrix-cube');
@@ -34,6 +44,62 @@ function createMatrix3D() {
             }
         });
     }, 500);
+}
+
+/**
+ * NEW: Initializes mouse interaction to make background cubes avoid the cursor.
+ */
+function initMouseInteraction() {
+    // Select the wrappers for interaction
+    const wrappers = document.querySelectorAll('.matrix-cube-wrapper');
+    if (wrappers.length === 0) return;
+
+    const repulsionRadius = 150; // Distance from the mouse to start pushing cubes
+    const repulsionForce = 80;   // How strongly the cubes are pushed
+
+    // Initialize mouse position off-screen so cubes are not affected on load
+    let mouseX = -repulsionRadius;
+    let mouseY = -repulsionRadius;
+
+    // Update mouse coordinates on move
+    window.addEventListener('mousemove', (event) => {
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+    });
+
+    // Animation loop to update cube positions
+    function updatePositions() {
+        wrappers.forEach(wrapper => {
+            const rect = wrapper.getBoundingClientRect();
+            // Calculate the center of the wrapper
+            const wrapperX = rect.left + rect.width / 2;
+            const wrapperY = rect.top + rect.height / 2;
+
+            // Calculate vector and distance from mouse to wrapper
+            const dx = wrapperX - mouseX;
+            const dy = wrapperY - mouseY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            // If the mouse is within the repulsion radius, push the cube away
+            if (distance < repulsionRadius) {
+                const force = (repulsionRadius - distance) / repulsionRadius;
+                const angle = Math.atan2(dy, dx);
+                
+                const tx = Math.cos(angle) * repulsionForce * force;
+                const ty = Math.sin(angle) * repulsionForce * force;
+                
+                wrapper.style.transform = `translateX(${tx}px) translateY(${ty}px)`;
+            } else {
+                // Otherwise, reset the transform to let it return to its original position
+                wrapper.style.transform = 'translateX(0px) translateY(0px)';
+            }
+        });
+        
+        // Continue the animation loop
+        requestAnimationFrame(updatePositions);
+    }
+    // Start the animation loop
+    requestAnimationFrame(updatePositions);
 }
 
 // Form validation functions
@@ -137,12 +203,12 @@ function setTheme(theme) {
     switch(theme) {
         case 'modern':
             body.classList.add('modern-theme');
-            themeIcon.textContent = '🎨';
+            themeIcon.textContent = '🌟';
             themeText.textContent = 'Static Mode';
             break;
         case 'static':
             body.classList.add('static-theme');
-            themeIcon.textContent = '🔮';
+            themeIcon.textContent = '💻';
             themeText.textContent = 'Matrix Mode';
             break;
         default: // matrix theme
@@ -166,6 +232,9 @@ function initializePage() {
     // Create Matrix 3D effect
     createMatrix3D();
     
+    // NEW: Initialize the mouse avoidance interaction
+    initMouseInteraction();
+
     // Initialize theme
     initTheme();
     
@@ -183,7 +252,6 @@ function initializePage() {
     if (ageInput) {
         ageInput.addEventListener('input', validateInputs);
     }
-    
     // Form submit handler
     if (form && submitBtn) {
         form.addEventListener('submit', function(e) {
@@ -279,7 +347,7 @@ function openPopup(htmlFile = 'document.html') {
     
     // Handle iframe error
     iframe.onerror = function() {
-        loading.innerHTML = '<p style="color: #ff6b6b;">❌ Failed to load document</p>';
+        loading.innerHTML = '<p style="color: #ff6b6b;">⚠️ Failed to load document</p>';
     };
 }
 
